@@ -111,7 +111,7 @@ void StreamServerComponent::write() {
 void StreamServerComponent::dump_config() {
     ESP_LOGI(TAG, "Stream Server:");
     ESP_LOGI(TAG, "  Address: %s:%u",
-                  esphome::network::addresses().str().c_str(),
+                  esphome::network::get_ip_addresses().str().c_str(),
                  this->port_);
 }
 
