@@ -112,12 +112,11 @@ void StreamServerComponent::dump_config() {
     ESP_LOGI(TAG, "Stream Server:");
     std::string ips;
     for (auto &ip : esphome::network::get_ip_addresses()) {
-      if (!ip.is_zero()) {
-        if (!ips.empty()) ips += ", ";
-        ips += ip.str();
+      auto ip_str = ip.str();
+      if (ip_str != "0.0.0.0") {
+        ESP_LOGI(TAG, "  Address: %s:%u", ip_str.c_str(), this->port_);
       }
     }
-    ESP_LOGI(TAG, "  Addresses: %s:%u", ips.c_str(), this->port_);
 }
 
 void StreamServerComponent::on_shutdown() {
