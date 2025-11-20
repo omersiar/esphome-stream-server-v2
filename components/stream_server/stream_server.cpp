@@ -19,8 +19,11 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 #include "esphome/core/util.h"
+#include "esphome/core/application.h"
 #include "esp_event.h"
 #include "esp_log.h"
+
+
 #include "esphome/components/network/util.h"
 #include "lwip/sockets.h"
 
@@ -80,6 +83,7 @@ void StreamServerComponent::read() {
         if (len > 0){
             err = send(this->socketstatus, read_buf, len, MSG_DONTWAIT);
         }
+        App.feed_wdt();
     }
  }
 
@@ -90,6 +94,7 @@ void StreamServerComponent::write() {
         len = std::min(len, 128);
         if (len > 0) {
             this->stream_->write_array(write_buf, len);
+            App.feed_wdt();
         }
         if (len == 0){
             socklen_t client_addrlen = sizeof(client_addr);
